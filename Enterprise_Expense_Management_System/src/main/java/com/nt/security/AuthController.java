@@ -26,7 +26,7 @@ import com.nt.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 public class AuthController {
 	
 	@Autowired UserRepo userRepository;
@@ -92,7 +92,9 @@ public class AuthController {
         if (roleOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("Default role not found.");
         }
-        user.setRoles(Set.of(roleOpt.get()));
+        user.setRole(roleOpt.get());  // not setRoles
+
+
 
 
         userRepository.save(user);

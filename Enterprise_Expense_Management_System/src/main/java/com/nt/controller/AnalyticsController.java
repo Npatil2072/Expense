@@ -1,4 +1,4 @@
-package com.nt.controller;
+/*package com.nt.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +21,7 @@ public class AnalyticsController {
     @Autowired private ExpenseRepo repo;
 
     @GetMapping("/monthly/{userId}")
-    public Map<String, Double> getMonthlyExpenses(@PathVariable Long userId) {
+    public Map<Object, Double> getMonthlyExpenses(@PathVariable Long userId) {
         List<Expense> expenses = repo.findByUserId(userId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -42,4 +42,4 @@ public class AnalyticsController {
                 ));
     }
 
-}
+}*/

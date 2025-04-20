@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nt.service.CustomUserDetailsService;
 
@@ -27,18 +29,32 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService; // your @Service
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
-                .anyRequest().authenticated()
-            )
-            .authenticationProvider(authenticationProvider()) // 👈 use the bean
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
-    }
+	   @Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    return http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+	            .anyRequest().authenticated()
+	        )
+	        .authenticationProvider(authenticationProvider()) // 👈 use the bean
+	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+	        .build();
+	}
+    
+	/*    @Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http
+	        .cors() // Enable CORS
+	        .and()
+	        .csrf().disable()
+	        .authorizeHttpRequests(authz -> authz
+	            .requestMatchers("/api/auth/**").permitAll()
+	            .anyRequest().authenticated()
+	        );
+	
+	    return http.build();
+	}*/
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -57,4 +73,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
+	
+
 }
